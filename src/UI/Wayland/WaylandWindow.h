@@ -83,10 +83,7 @@ public:
     {
 
     }
-    virtual bool ProcessMessages() override//;
-    {
-
-    }
+    virtual bool ProcessMessages() override;
 
 	void HideMouse();
 

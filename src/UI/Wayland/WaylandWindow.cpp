@@ -34,12 +34,7 @@ struct wl_region *region;
 struct wl_shell *shell;
 struct wl_shell_surface *shell_surface;
 
-/*
-EGLDisplay egl_display;
-EGLConfig egl_conf;
-EGLSurface egl_surface;
-EGLContext egl_context;
-*/
+
 static void
 global_registry_handler(void *data, struct wl_registry *registry, uint32_t id,
            const char *interface, uint32_t version)
@@ -69,17 +64,12 @@ static const struct wl_registry_listener registry_listener = {
 };
 
 static void
-create_opaque_region() {
-
-}
-
-static void
 get_server_references(void) {
 
     display = wl_display_connect(NULL);
     if (display == NULL) {
-    fprintf(stderr, "Can't connect to display\n");
-    exit(1);
+        fprintf(stderr, "Can't connect to display\n");
+        exit(1);
     }
     printf("connected to display\n");
 
@@ -90,10 +80,10 @@ get_server_references(void) {
     wl_display_roundtrip(display);
 
     if (compositor == NULL || shell == NULL) {
-    fprintf(stderr, "Can't find compositor or shell\n");
-    exit(1);
+        fprintf(stderr, "Can't find compositor or shell\n");
+        exit(1);
     } else {
-    fprintf(stderr, "Found compositor and shell\n");
+        fprintf(stderr, "Found compositor and shell\n");
     }
 }
 
@@ -107,10 +97,10 @@ WayAmlWindow::WayAmlWindow()
 
     surface = wl_compositor_create_surface(compositor);
     if (surface == NULL) {
-    fprintf(stderr, "Can't create surface\n");
-    exit(1);
+        fprintf(stderr, "Can't create surface\n");
+        exit(1);
     } else {
-    fprintf(stderr, "Created surface\n");
+        fprintf(stderr, "Created surface\n");
     }
 
     shell_surface = wl_shell_get_shell_surface(shell, surface);
@@ -127,9 +117,11 @@ WayAmlWindow::WayAmlWindow()
 		throw Exception("Compatible EGL config not found.");
 
 
+/*
 	// Get the native visual id associated with the config
 	int xVisual;	
 	eglGetConfigAttrib(eglDisplay, eglConfig, EGL_NATIVE_VISUAL_ID, &xVisual);
+*/
 
 
     // Opaque Region
@@ -141,7 +133,7 @@ WayAmlWindow::WayAmlWindow()
     egl_window = wl_egl_window_create(surface, width, height);
     if (egl_window == EGL_NO_SURFACE) {
         fprintf(stderr, "Can't create egl window\n");
-    exit(1);
+        exit(1);
     } else {
         fprintf(stderr, "Created egl window\n");
     }
@@ -151,7 +143,6 @@ WayAmlWindow::WayAmlWindow()
 		EGL_NONE };
 
     eglSurface = eglCreateWindowSurface(eglDisplay, eglConfig, (NativeWindowType)egl_window, windowAttr);
-
     if (eglSurface == EGL_NO_SURFACE)
 	{
 		Egl::CheckError();
@@ -202,18 +193,18 @@ void WayAmlWindow::WaitForMessage()
 
 }
 */
-/*
+
 bool WayAmlWindow::ProcessMessages()
 {
 	bool run = true;
-
+/*
     while (wl_display_dispatch(display) != -1) {
     // Gestire il caso di uscita
     }
-
+*/
 	return run;
 }
-*/
+
 void WayAmlWindow::HideMouse()
 {
 
@@ -224,4 +215,4 @@ void WayAmlWindow::UnHideMouse()
 
 }
 
- #endif
+#endif
