@@ -16,6 +16,8 @@
 
 #pragma once
 
+#if !defined(WAYLAND) && !defined(X11)
+
 #include <sys/mman.h>	//mmap
 #include <linux/kd.h>
 
@@ -196,3 +198,5 @@ public:
 	{
 	}
 };
+
+#endif

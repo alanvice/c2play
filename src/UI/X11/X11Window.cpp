@@ -15,6 +15,7 @@
 */
 
 #include "X11Window.h"
+#ifdef X11
 
 #include "Egl.h"
 #include "GL.h"
@@ -405,3 +406,4 @@ void X11AmlWindow::UnHideMouse()
 	XUndefineCursor(display, xwin);
 }
 
+#endif

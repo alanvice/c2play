@@ -15,20 +15,17 @@
 */
 
 #pragma once
-#ifdef X11
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <sys/ioctl.h>
+#ifdef WAYLAND
 
-#include <cstring>
-#include <string>
-
-#include <X11/Xlib.h>
-#include <X11/Xutil.h>
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <wayland-client.h>
+#include <wayland-server.h>
+#include <wayland-client-protocol.h>
+#include <wayland-egl.h>
 #include <EGL/egl.h>
+#include <GLES2/gl2.h>
 
 #include "Exception.h"
 #include "AmlWindow.h"
@@ -46,27 +43,18 @@
 
 // TODO: Figure out a way to disable screen savers
 
-class X11AmlWindow : public AmlWindow
+class WayAmlWindow : public AmlWindow
 {
 	const int DEFAULT_WIDTH = 1280;
 	const int DEFAULT_HEIGHT = 720;
-	const char* WINDOW_TITLE = "X11AmlWindow";
+    const char* WINDOW_TITLE = "WaylandAmlWindow";
+    int width;
+    int height;
 
-	Display* display = nullptr;
-	int width;
-	int height;
-	XVisualInfo* visInfoArray = nullptr;
-	Window root = 0;
-	Window xwin = 0;
-	Atom wm_delete_window;
 	//int video_fd = -1;
 	EGLDisplay eglDisplay;
-	EGLSurface surface;
-	EGLContext context;
-
-
-	//void IntializeEgl();
-	//void FindEglConfig(EGLConfig* eglConfigOut, int* xVisualOut);
+    EGLSurface eglSurface;
+    EGLContext eglContext;
 
 public:
 
@@ -77,25 +65,32 @@ public:
 
 	virtual EGLSurface Surface() const override
 	{
-		return surface;
+        return eglSurface;
 	}
 
 	virtual EGLContext Context() const override
 	{
-		return context;
+        return eglContext;
 	}
 
 
 
-	X11AmlWindow();
-	~X11AmlWindow();
+    WayAmlWindow();
+    ~WayAmlWindow();
 
 
-	virtual void WaitForMessage() override;
-	virtual bool ProcessMessages() override;
+    virtual void WaitForMessage() override//;
+    {
+
+    }
+    virtual bool ProcessMessages() override//;
+    {
+
+    }
 
 	void HideMouse();
 
 	void UnHideMouse();
 };
+
 #endif
