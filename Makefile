@@ -6,7 +6,7 @@ ifndef config
 endif
 export config
 
-PROJECTS := c2play c2play-x11
+PROJECTS := c2play c2play-x11 c2play-wayland
 
 .PHONY: all clean help $(PROJECTS)
 
@@ -20,9 +20,14 @@ c2play-x11:
 	@echo "==== Building c2play-x11 ($(config)) ===="
 	@${MAKE} --no-print-directory -C build/gmake -f c2play-x11.make
 
+c2play-wayland: 
+	@echo "==== Building c2play-wayland ($(config)) ===="
+	@${MAKE} --no-print-directory -C build/gmake -f c2play-wayland.make
+	
 clean:
 	@${MAKE} --no-print-directory -C build/gmake -f c2play.make clean
 	@${MAKE} --no-print-directory -C build/gmake -f c2play-x11.make clean
+	@${MAKE} --no-print-directory -C build/gmake -f c2play-wayland.make clean
 
 help:
 	@echo "Usage: make [config=name] [target]"
@@ -36,5 +41,6 @@ help:
 	@echo "   clean"
 	@echo "   c2play"
 	@echo "   c2play-x11"
+	@echo "   c2play-wayland"
 	@echo ""
 	@echo "For more information, see http://industriousone.com/premake/quick-start"

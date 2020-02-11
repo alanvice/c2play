@@ -34,9 +34,12 @@ void Compositor::SwapBuffers()
 
 void Compositor::WaitForVSync()
 {
-	if (ioctl(fd, FBIO_WAITFORVSYNC, 0) < 0)
+	if(fd != -1)
 	{
-		throw Exception("FBIO_WAITFORVSYNC failed.");
+		if (ioctl(fd, FBIO_WAITFORVSYNC, 0) < 0)
+		{
+			throw Exception("FBIO_WAITFORVSYNC failed.");
+		}
 	}
 }
 
@@ -163,11 +166,11 @@ Compositor::Compositor(RenderContextSPTR context, int width, int height)
 	if (height < 1)
 		throw ArgumentOutOfRangeException();
 
-
+#ifndef WAYLAND
 	fd = open("/dev/fb0", O_RDWR);
 	if (fd < 0)
 		throw Exception("open /dev/fb0 failed.");
-
+#endif
 
 	/*quadBatch = std::make_shared<QuadBatch>(1920, 1080);*/
 

@@ -39,6 +39,7 @@ void AmlWindow::CloseDevice(int fd)
 AmlWindow::AmlWindow()
 	: WindowBase()
 {
+#ifndef WAYLAND
 	// enable alpha setting
 	int fd_m;
 	struct fb_var_screeninfo info;
@@ -63,13 +64,14 @@ AmlWindow::AmlWindow()
 	info.yres_virtual = info.yres * 2;
 	ioctl(fd_m, FBIOPUT_VSCREENINFO, &info);
 	close(fd_m);
+#endif
 }
 
 AmlWindow::~AmlWindow()
 {
 	//close(video_fd);
 
-
+#ifndef WAYLAND
 	// Restore alpha setting
 	int fd_m;
 	struct fb_var_screeninfo info;
@@ -94,6 +96,7 @@ AmlWindow::~AmlWindow()
 	info.yres_virtual = info.yres * 2;
 	ioctl(fd_m, FBIOPUT_VSCREENINFO, &info);
 	close(fd_m);
+#endif
 }
 
 

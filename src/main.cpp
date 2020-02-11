@@ -40,6 +40,8 @@ extern "C"
 
 #ifdef X11
 #include "X11Window.h"
+#elif WAYLAND
+#include "WaylandWindow.h"
 #else
 #include "FbdevAmlWindow.h"
 #endif
@@ -361,24 +363,28 @@ int main(int argc, char** argv)
 #ifdef X11
 
 	window = std::make_shared<X11AmlWindow>();
-
+#elif WAYLAND
+	window = std::make_shared<WayAmlWindow>();
 #else
 
 	window = std::make_shared<FbdevAmlWindow>();
 	isFbdev = true;
 
 #endif
-	 
+	printf("MAIN: window created");
 	window->ProcessMessages();
 
 	RenderContextSPTR renderContext = std::make_shared<RenderContext>(window->EglDisplay(),
 		window->Surface(),
 		window->Context());
 
+	printf("MAIN: context created");
+	
 	CompositorSPTR compositor = std::make_shared<Compositor>(renderContext, 1920, 1080);
 	osd = std::make_shared<Osd>(compositor);
 
-
+	printf("MAIN: compositor created");
+	
 	MediaPlayerSPTR mediaPlayer = std::make_shared<MediaPlayer>(url,
 		avOptions,
 		compositor,

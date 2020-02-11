@@ -143,6 +143,7 @@ void AmlCodec::InternalOpen(VideoFormatEnum format, int width, int height, doubl
 
 		case VideoFormatEnum::Avc:
 		{
+#if 0
 			if (width > 1920 || height > 1080)
 			{
 				printf("AmlVideoSink - VIDEO/H264_4K2K\n");
@@ -151,6 +152,7 @@ void AmlCodec::InternalOpen(VideoFormatEnum format, int width, int height, doubl
 				am_sysinfo.format = VIDEO_DEC_FORMAT_H264_4K2K;
 			}
 			else
+#endif
 			{
 				printf("AmlVideoSink - VIDEO/H264\n");
 
@@ -268,7 +270,7 @@ void AmlCodec::InternalOpen(VideoFormatEnum format, int width, int height, doubl
 		throw Exception("AMSTREAM_IOC_SYNCENABLE failed.");
 	}
 
-
+#if 0
 	// Restore settings that Kodi tramples
 	r = ioctl(cntl_handle, AMSTREAM_IOC_SET_VIDEO_DISABLE, (unsigned long)VIDEO_DISABLE_NONE);
 	if (r != 0)
@@ -283,7 +285,7 @@ void AmlCodec::InternalOpen(VideoFormatEnum format, int width, int height, doubl
 		std::string err = "AMSTREAM_IOC_SET_SCREEN_MODE VIDEO_WIDEOPTION_NORMAL failed (" + std::to_string(r) + ").";
 		throw Exception(err.c_str());
 	}
-
+#endif
 
 	// Debug info
 	printf("\tw=%d h=%d ", width, height);
